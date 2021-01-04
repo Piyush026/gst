@@ -22,6 +22,8 @@ def set_browser_as_incognito(options):
 def set_browser_in_fullScreen(options):
     options.add_argument("--start-maximized")
 
+def set_automation_adblock(options):
+    options.add_extension('Adblock-Plus_v1.4.1.crx')
 
 def set_automation_as_head_less(options):
     options.add_argument('--headless')

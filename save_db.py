@@ -9,7 +9,7 @@ url = "mongodb+srv://polo:" + urllib.parse.quote(
 # url is just an example (your url will be different)
 
 cluster = MongoClient(url)
-db = cluster['scraper4']
+db = cluster['scraperdemo1']
 collection = db['gst']
 
 # print(db)

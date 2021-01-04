@@ -17,7 +17,7 @@ from config import (
     set_browser_as_incognito,
     set_ignore_certificate_error,
     set_browser_in_fullScreen, URL,
-    # set_automation_as_head_less,
+    set_automation_as_head_less,
 )
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium import webdriver
@@ -39,7 +39,7 @@ def readfile():
 
 
 dictt = []
-
+threadLocal = threading.local()
 
 class GSTFINDER:
 
@@ -51,55 +51,59 @@ class GSTFINDER:
         # prox.socks_proxy = pproxy
         prox.ssl_proxy = pproxy
         print(pproxy)
-        capabilities = webdriver.DesiredCapabilities.CHROME
-        prox.add_to_capabilities(capabilities)
+        self.driver = getattr(threadLocal, 'driver', None)
+        if self.driver is None:
+            capabilities = webdriver.DesiredCapabilities.CHROME
+            prox.add_to_capabilities(capabilities)
 
-        options = get_web_driver_options()
-        # set_proxy(options)
-        set_ignore_certificate_error(options)
+            options = get_web_driver_options()
+            # set_proxy(options)
+            set_ignore_certificate_error(options)
 
-        set_browser_as_incognito(options)
-        # set_automation_as_head_less(options)
-        set_browser_in_fullScreen(options)
+            set_browser_as_incognito(options)
+            set_automation_as_head_less(options)
+            # set_browser_in_fullScreen(options)
 
-        self.driver = get_chrome_web_driver(options, capabilities)
+            self.driver = get_chrome_web_driver(options, capabilities)
+        setattr(threadLocal, 'driver', self.driver)
 
     def know_your_gst(self, cname):
-        self.driver.set_page_load_timeout(10)
-        self.driver.get(self.base_url)
-        self.driver.implicitly_wait(5)
-        time.sleep(1)
-        self.driver.find_element_by_id("gstnumber").send_keys(cname + Keys.ENTER)
-        gst = self.driver.find_element_by_xpath('//*[@id="searchresult"]/span/strong[2]').text
-        dictt.append(gst)
-        # print(gst)
-        return gst
+        try:
+            # self.driver.set_page_load_timeout(10)
+            self.driver.get(self.base_url)
+            self.driver.implicitly_wait(5)
+            time.sleep(1)
+            self.driver.find_element_by_id("gstnumber").send_keys(cname + Keys.ENTER)
+            gst = self.driver.find_element_by_xpath('//*[@id="searchresult"]/span/strong[2]').text
+            dictt.append(gst)
+            # print(gst)
+            return gst
+        except Exception as e:
+            print(str(e))
 
     def close_driver(self):
         self.driver.close()
 
 
-def main(lst, lock):
-    for x in lst:
-        print(x)
+def maain(lst):
         cmpdict = {}
         try:
             proxy_list = proxylist()
             pproxy = random.choice(proxy_list)
             obj = GSTFINDER(URL, pproxy)
-            gst = obj.know_your_gst(x)
+            gst = obj.know_your_gst(lst)
             print(gst)
-            obj.close_driver()
-            cmpdict["company"] = x
+            # obj.close_driver()
+            cmpdict["company"] = lst
             cmpdict["gst"] = gst
             # cmpdict[x] = gst
             print(cmpdict)
         except:
             obj.close_driver()
-            continue
+            # continue
 
         finally:
-            if cmpdict:
+            if cmpdict["gst"]:
                 csv_columns = ["company", "GST"]
                 csv_file = "cmp_gst.csv"
                 with open(csv_file, 'a') as csvfile:
@@ -109,4 +113,6 @@ def main(lst, lock):
 
 
 if __name__ == '__main__':
-    main()
+    lsttt = ["ASHIRVAD PIPES PRIVATE LIMITED ", "ASCO NUMATICS (INDIA) PRIVATE LIMITED ", "sdjzhcb",
+             "ARMAN FINANCIAL SERVICES LIMITED"]
+    maain(lsttt)
