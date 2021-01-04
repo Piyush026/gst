@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 from gst import readfile, maain
 
 lst = readfile()
+lst1 = lst[0:100]
 # data = [lst[i:i + 2000] for i in range(0, len(lst), 2000)]
 # data1 = data[0][1:10]
 # data2 = data[1]
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     # print("Done!")
     start_time = time.time()
     print(start_time)
-    with ThreadPoolExecutor(max_workers=8) as executor:
+    with ThreadPoolExecutor(max_workers=10) as executor:
         future = executor.map(maain, lst)
         # future1 = executor.map(maain, data2)
         # # future2 = executor.map(maain, data3)

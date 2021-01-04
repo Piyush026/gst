@@ -105,7 +105,7 @@ def maain(lst):
         finally:
             if cmpdict["gst"]:
                 csv_columns = ["company", "GST"]
-                csv_file = "cmp_gst.csv"
+                csv_file = "cmp_gst1.csv"
                 with open(csv_file, 'a') as csvfile:
                     w = csv.DictWriter(csvfile, cmpdict.keys())
                     w.writerow(cmpdict)
