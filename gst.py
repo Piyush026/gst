@@ -16,6 +16,7 @@ from config import (
     get_chrome_web_driver,
     set_browser_as_incognito,
     set_ignore_certificate_error,
+    set_ssl_ignore,
     set_browser_in_fullScreen, URL,
     # set_automation_as_head_less,
 )
@@ -57,6 +58,7 @@ class GSTFINDER:
         options = get_web_driver_options()
         # set_proxy(options)
         set_ignore_certificate_error(options)
+        set_ssl_ignore(options)
 
         set_browser_as_incognito(options)
         # set_automation_as_head_less(options)
@@ -79,7 +81,7 @@ class GSTFINDER:
         self.driver.close()
 
 
-def main(lst, lock):
+def main(lst,lock):
     for x in lst:
         print(x)
         cmpdict = {}

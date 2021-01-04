@@ -1,10 +1,11 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.utils import ChromeType
 # PROXY = "14.139.242.252:3128"
 # PROXY = "14.63.228.217:80"
 
 def get_chrome_web_driver(options,capabilities):
-    return webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options,desired_capabilities=capabilities)
+    return webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), chrome_options=options,desired_capabilities=capabilities)
 
 
 def get_web_driver_options():
@@ -13,6 +14,9 @@ def get_web_driver_options():
 
 def set_ignore_certificate_error(options):
     options.add_argument('--ignore-certificate-errors')
+
+def set_ssl_ignore(options):
+    options.add_argument('--allow-insecure-localhost')
 
 
 def set_browser_as_incognito(options):
