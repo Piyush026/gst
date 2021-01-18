@@ -18,6 +18,8 @@ from config import (
     set_ignore_certificate_error,
     set_browser_in_fullScreen, URL,
     set_automation_as_head_less,
+    set_automation_adblock,
+    set_automation_gpu,
 )
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium import webdriver
@@ -59,7 +61,8 @@ class GSTFINDER:
             options = get_web_driver_options()
             # set_proxy(options)
             set_ignore_certificate_error(options)
-
+            set_automation_gpu(options)
+            #set_automation_adblock
             set_browser_as_incognito(options)
             set_automation_as_head_less(options)
             # set_browser_in_fullScreen(options)
@@ -105,7 +108,7 @@ def maain(lst):
         finally:
             if cmpdict["gst"]:
                 csv_columns = ["company", "GST"]
-                csv_file = "cmp_gst1.csv"
+                csv_file = "cmp_gst2.csv"
                 with open(csv_file, 'a') as csvfile:
                     w = csv.DictWriter(csvfile, cmpdict.keys())
                     w.writerow(cmpdict)

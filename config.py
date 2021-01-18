@@ -23,14 +23,17 @@ def set_browser_in_fullScreen(options):
     options.add_argument("--start-maximized")
 
 def set_automation_adblock(options):
-    options.add_extension('Adblock-Plus_v1.4.1.crx')
+    options.add_argument("--disable-blink-features=AutomationControlled","--enable-logging","--log-level=0",)
+
+def set_automation_gpu(options):
+    options.add_argument('--disable-gpu')
 
 def set_automation_as_head_less(options):
     options.add_argument('--headless')
 
 def set_proxy(options):
     capabilities = webdriver.DesiredCapabilities.CHROME
-    capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+    capabilities.setCapability(ChromeOptions.CAPABILITY, options)
 
 def get_driver(options):
     return ChromeDriverManager(options)

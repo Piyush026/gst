@@ -2,9 +2,9 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from gst import readfile, maain
-
-lst = readfile()
-lst1 = lst[0:100]
+from csv_read import file_read
+lst = file_read()
+lst1 = lst[431027:700000]
 # data = [lst[i:i + 2000] for i in range(0, len(lst), 2000)]
 # data1 = data[0][1:10]
 # data2 = data[1]
@@ -33,8 +33,8 @@ if __name__ == "__main__":
     # print("Done!")
     start_time = time.time()
     print(start_time)
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        future = executor.map(maain, lst)
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        future = executor.map(maain, lst1)
         # future1 = executor.map(maain, data2)
         # # future2 = executor.map(maain, data3)
     duration = time.time() - start_time
